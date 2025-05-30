@@ -16,16 +16,16 @@ def simulate(symbol: str = Query(...), monthly: str = Query(...), years: str = Q
         start = end - timedelta(days=365 * years)
         data = yf.download(symbol, start=start.strftime('%Y-%m-%d'), end=end.strftime('%Y-%m-%d'), interval='1mo')
 
-        close_prices = data['Close'].dropna().tolist()
+        close_series = data['Close']
+        close_prices = [float(p) for p in close_series.dropna()]
 
         total_cost = 0
         total_unit = 0
         for price in close_prices:
-            price = float(price)
             total_cost += monthly
             total_unit += monthly / price
 
-        final_value = total_unit * float(close_prices[-1])
+        final_value = total_unit * close_prices[-1]
         result = {
             "symbol": symbol,
             "invested": total_cost,
