@@ -1,4 +1,3 @@
-
 from fastapi import FastAPI, Query
 from fastapi.responses import JSONResponse
 import yfinance as yf
@@ -43,3 +42,4 @@ def simulate(symbol: str = Query(...), monthly: str = Query(...), years: str = Q
 
     except Exception as e:
         return JSONResponse(status_code=500, content={"error": str(e)})
+
