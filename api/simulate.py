@@ -19,10 +19,11 @@ def simulate(symbol: str = Query(...), monthly: str = Query(...), years: str = Q
         total_cost = 0
         total_unit = 0
         for price in data['Close']:
+            price = float(price)
             total_cost += monthly
             total_unit += monthly / price
 
-        final_value = total_unit * data['Close'].iloc[-1]
+        final_value = total_unit * float(data['Close'].iloc[-1])
         result = {
             "symbol": symbol,
             "invested": total_cost,
