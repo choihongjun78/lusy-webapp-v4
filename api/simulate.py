@@ -21,8 +21,6 @@ def simulate(symbol: str = Query(...), monthly: str = Query(...), years: str = Q
             return JSONResponse(status_code=500, content={"error": "No 'Close' price data available for this symbol."})
 
         close_series = data['Close']
-
-        # [🚨 핵심] 만약 Close가 DataFrame이면 symbol 칼럼으로 변환
         if isinstance(close_series, pd.DataFrame):
             close_series = close_series[symbol.upper()]
 
