@@ -7,10 +7,13 @@ from datetime import datetime, timedelta
 app = FastAPI()
 
 @app.get("/api/simulate")
-def simulate(symbol: str = Query(...), monthly: int = Query(...), years: int = Query(...)):
+def simulate(symbol: str = Query(...), monthly: str = Query(...), years: str = Query(...)):
     try:
+        monthly = int(monthly)
+        years = int(years)
+
         end = datetime.today()
-        start = end - timedelta(days=365*years)
+        start = end - timedelta(days=365 * years)
         data = yf.download(symbol, start=start.strftime('%Y-%m-%d'), end=end.strftime('%Y-%m-%d'), interval='1mo')
 
         total_cost = 0
